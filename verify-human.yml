@@ -18,10 +18,10 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4  # Updated to v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4  # Updated to v4
         with:
           node-version: '20'
 
@@ -30,8 +30,13 @@ jobs:
 
       - name: Install script dependencies
         run: |
-          cd scripts
-          npm install
+          if [ -d "scripts" ]; then
+            cd scripts
+            npm install
+          else
+            echo "Error: scripts folder not found!"
+            exit 1
+          fi
 
       - name: Step 2 - Create new Ethereum Identity
         run: node scripts/createNewEthereumIdentity.js
